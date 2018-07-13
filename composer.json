@@ -1,5 +1,8 @@
 {
     "require": {
         "messagebird/php-rest-api": "^1.9"
+    },
+    "autoload": {
+        "psr-4": {"dimichspb\\": "src/"}
     }
 }
