@@ -5,7 +5,7 @@ use Closure;
 use dimichspb\messagebird\entities\configuration\AccessKey;
 use MessageBird\Client;
 
-class MessageBirdClientAdapter
+class MessageBirdClientAdapter implements ClientAdapterInterface
 {
     protected $inhibitor;
     protected $instance;
@@ -25,6 +25,9 @@ class MessageBirdClientAdapter
         );
     }
 
+    /**
+     * @return Client
+     */
     public function getInstance()
     {
         if ($this->instance instanceof Client) {
@@ -33,6 +36,12 @@ class MessageBirdClientAdapter
 
         return $this->instance = call_user_func($this->inhibitor);
     }
+
+    public function getBalance()
+    {
+        return $this->getInstance()->balance->read();
+    }
+
 
     public function setAccessKey(AccessKey $accessKey)
     {

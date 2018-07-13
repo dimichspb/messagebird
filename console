@@ -1,19 +1,27 @@
 #!/usr/bin/env php
 <?php
 
+use dimichspb\messagebird\commands\DefaultCommand;
+use dimichspb\messagebird\Configurator;
 use dimichspb\messagebird\ConsoleApplication;
+use dimichspb\messagebird\processors\configuration\File;
+use dimichspb\messagebird\processors\configuration\IniFileProcessor;
+use dimichspb\messagebird\middlewares\router\Router;
 
 require_once (__DIR__ . '/src/bootstrap.php');
 
-$configFilePath = __DIR__;
+$configPath = __DIR__;
 $configFileName = 'config.ini';
 $localConfigFileName = 'config-local.ini';
 
-$application = createApplication(
-    ConsoleApplication::class,
-    $configFilePath,
-    $configFileName,
-    $localConfigFileName
-);
+$configurator = new Configurator(new IniFileProcessor([
+    new File($configPath, $configFileName),
+    new File($configPath, $localConfigFileName)
+]));
+
+$router = new Router($configurator, 'console.routes');
+$router->setDefaultRoute(DefaultCommand::class);
+$application = new ConsoleApplication();
+$application->addMiddleware($router);
 
 $application->run();
