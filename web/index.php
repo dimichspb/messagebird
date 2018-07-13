@@ -1,7 +1,18 @@
 <?php
 
-use MessageBird\Client;
+use dimichspb\messagebird\WebApplication;
 
 require_once (dirname(__DIR__) . '/src/bootstrap.php');
 
-$MessageBird = new Client('YOUR_ACCESS_KEY');
+$configFilePath = dirname(__DIR__);
+$configFileName = 'config.ini';
+$localConfigFileName = 'config-local.ini';
+
+$application = createApplication(
+    WebApplication::class,
+    $configFilePath,
+    $configFileName,
+    $localConfigFileName
+);
+
+$application->run();

@@ -1,4 +1,19 @@
 #!/usr/bin/env php
 <?php
 
-require_once ('web/index.php');
+use dimichspb\messagebird\ConsoleApplication;
+
+require_once (__DIR__ . '/src/bootstrap.php');
+
+$configFilePath = __DIR__;
+$configFileName = 'config.ini';
+$localConfigFileName = 'config-local.ini';
+
+$application = createApplication(
+    ConsoleApplication::class,
+    $configFilePath,
+    $configFileName,
+    $localConfigFileName
+);
+
+$application->run();
