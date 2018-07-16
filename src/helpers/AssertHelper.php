@@ -100,4 +100,20 @@ class AssertHelper
         }
         return true;
     }
+
+    public static function isHex($value)
+    {
+        if (!preg_match('/[0-9A-F]{2}/', strtoupper($value))) {
+            throw new AssertionException('Not a hex');
+        }
+        return true;
+    }
+
+    public static function isTrue($value)
+    {
+        if ($value !== true) {
+            throw new AssertionException('Not a true');
+        }
+        return true;
+    }
 }
