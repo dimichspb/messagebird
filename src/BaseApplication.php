@@ -44,7 +44,7 @@ abstract class BaseApplication
                 $this->processMiddleware($middleware, $request, $response);
             }
         } catch (\Exception $exception) {
-            $response->setBody($exception->getMessage());
+            $response->setBody($exception->getMessage() . PHP_EOL . $exception->getTraceAsString());
         }
 
         echo $response->getBody();

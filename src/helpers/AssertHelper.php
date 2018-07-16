@@ -84,4 +84,20 @@ class AssertHelper
         }
         return true;
     }
+
+    public static function isPhoneNumber($value)
+    {
+        if (!preg_match('/[0-9]{11}/', $value)) {
+            throw new AssertionException('Not a phone number');
+        }
+        return true;
+    }
+
+    public static function isText($value)
+    {
+        if (!is_string($value)) {
+            throw new AssertionException('Not a text');
+        }
+        return true;
+    }
 }

@@ -13,17 +13,23 @@ class FileStorage implements StorageInterface
     {
         $filename = $configurator->get('storage.filename');
 
-        $path = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . FileHelper::parsePath(dirname($filename));
+        $path = dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . FileHelper::parsePath(dirname($filename));
         $filename = FileHelper::parseFilename($filename);
 
         AssertHelper::isDirectoryExist($path);
 
         $this->filename = FileHelper::build($path, $filename);
+
+        if (!file_exists($this->filename)) {
+            file_put_contents($this->filename, '');
+        }
     }
 
     public function getData()
     {
-        return file_get_contents($this->filename);
+        $contents = file_get_contents($this->filename);
+
+        return $contents? $contents: '';
     }
 
     public function saveData($data)

@@ -29,4 +29,9 @@ class HttpRequest implements RequestInterface
                 return null;
         }
     }
+
+    public function getBody()
+    {
+        return file_get_contents('php://input');
+    }
 }

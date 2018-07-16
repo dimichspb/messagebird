@@ -22,16 +22,11 @@ class Queue
      */
     protected $serializer;
 
-    /**
-     * @var WorkerInterface[]
-     */
-    protected $data = [];
-
     public function __construct(Configurator $configurator)
     {
         $this->configurator = $configurator;
 
-        $timeout = $configurator->get('queue.timeout');
+        $timeout = (int)$configurator->get('queue.timeout');
 
         $storageClass = $configurator->get('queue.storage');
         $serializerClass = $configurator->get('queue.serializer');
@@ -50,15 +45,13 @@ class Queue
 
         $this->storage = $this->initStorage($storageClass);
         $this->serializer = $this->initSerializer($serializerClass);
-
-        $this->data = $this->loadData($serializer, $this->storage);
     }
 
     protected function initStorage($storageClass)
     {
         AssertHelper::isClassExist($storageClass);
 
-        $storage = new $storageClass;
+        $storage = new $storageClass($this->configurator);
 
         AssertHelper::isInstanceOf($storage, StorageInterface::class);
 
@@ -94,32 +87,35 @@ class Queue
     {
         AssertHelper::isAllInstanceOf($data, WorkerInterface::class);
 
-        $storage->saveData($serializer->serialize($data));
+        return $storage->saveData($serializer->serialize($data));
     }
 
     public function add(WorkerInterface $worker)
     {
-        $this->data[] = $worker;
+        $data = $this->loadData($this->serializer, $this->storage);
+        $data[] = $worker;
+        return $this->saveData($this->serializer, $this->storage, $data);
     }
 
     public function one()
     {
-        $data = $this->data;
+        $data = $this->loadData($this->serializer, $this->storage);
+
+        if ($this->count() === 0) {
+            return null;
+        }
         $worker = array_shift($data);
-        $worker->run();
-        $this->data = $data;
+        if (!$worker) {
+            return null;
+        }
+        $result = $worker->run();
         $this->saveData($this->serializer, $this->storage, $data);
+        return $result;
     }
 
-    public function all()
+    public function count()
     {
-        $data = $this->data;
-
-        foreach ($data as $index => $worker) {
-            $worker->run();
-            unset($data[$index]);
-        }
-        $this->data = $data;
-        $this->saveData($this->serializer, $this->storage, $data);
+        $data = $this->loadData($this->serializer, $this->storage);
+        return count($data);
     }
 }

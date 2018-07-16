@@ -25,6 +25,29 @@ class QueueCommand extends BaseCommand
 
     public function run()
     {
-        return self::class;
+        $count = $this->queue->count();
+
+        $delay = 1;
+
+        $this->response->writeLine('Queue count: ' . $count);
+
+        set_time_limit(0);
+
+        while (true) {
+            $start = microtime(true);
+            $this->runQueue();
+            $sleepUntil = $start + $delay;
+            if ($sleepUntil > microtime(true)) {
+                time_sleep_until($start + $delay);
+            }
+        }
+    }
+
+    protected function runQueue()
+    {
+        if ($result = $this->queue->one()) {
+            $this->response->writeLine($result);
+            $this->response->writeLine('Done!');
+        }
     }
 }

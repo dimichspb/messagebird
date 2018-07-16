@@ -26,7 +26,7 @@ class MessageWorker implements WorkerInterface
 
     public function run()
     {
-        $this->clientService->send($this->message);
+        return $this->clientService->send($this->message);
     }
 
 }

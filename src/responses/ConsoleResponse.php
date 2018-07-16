@@ -1,6 +1,8 @@
 <?php
 namespace dimichspb\messagebird\responses;
 
+use dimichspb\messagebird\exceptions\NotSupportedException;
+
 class ConsoleResponse implements ResponseInterface
 {
     protected $body;
@@ -13,5 +15,10 @@ class ConsoleResponse implements ResponseInterface
     public function getBody()
     {
         return $this->body;
+    }
+
+    public function writeLine($line)
+    {
+        echo $line . PHP_EOL;
     }
 }
