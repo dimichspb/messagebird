@@ -10,6 +10,7 @@ class DefaultCommand extends BaseCommand
     /**
      * @return string
      */
+
     public function run()
     {
         return self::class;

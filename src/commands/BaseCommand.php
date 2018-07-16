@@ -43,9 +43,6 @@ abstract class BaseCommand implements ControllerInterface
         $this->response = $response? $response: new ConsoleResponse();
     }
 
-    /**
-     *
-     */
     public function aware()
     {
 

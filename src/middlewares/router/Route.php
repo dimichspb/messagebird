@@ -15,11 +15,11 @@ class Route
     const DEFAULT_ROUTE_ALIAS = 'default';
 
     /**
-     * @var
+     * @var string
      */
     protected $alias;
     /**
-     * @var
+     * @var string
      */
     protected $class;
 

@@ -10,8 +10,10 @@ use dimichspb\messagebird\helpers\AssertHelper;
  */
 class TimeOut extends Entity
 {
+
     /**
      * @param $value
+     * @return mixed|void
      */
     protected function assert($value)
     {
