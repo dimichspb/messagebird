@@ -1,17 +1,47 @@
 <?php
 namespace dimichspb\messagebird\entities\messages\udh;
 
-use dimichspb\messagebird\helpers\AssertHelper;
 
+/**
+ * Class Udh
+ * @package dimichspb\messagebird\entities\messages\udh
+ */
 class Udh
 {
+    /**
+     * @var Length
+     */
     protected $length;
+    /**
+     * @var Identifier
+     */
     protected $identifier;
+    /**
+     * @var ShortLength
+     */
     protected $shortLength;
+    /**
+     * @var Reference
+     */
     protected $reference;
+    /**
+     * @var Count
+     */
     protected $count;
+    /**
+     * @var Current
+     */
     protected $current;
 
+    /**
+     * Udh constructor.
+     * @param Length $length
+     * @param Identifier $identifier
+     * @param ShortLength $shortLength
+     * @param Reference $reference
+     * @param Count $count
+     * @param Current $current
+     */
     public function __construct(Length $length, Identifier $identifier, ShortLength $shortLength,
                                 Reference $reference, Count $count, Current $current)
     {
@@ -95,6 +125,9 @@ class Udh
         $this->current = $current;
     }
 
+    /**
+     * @return string
+     */
     public function toString()
     {
         return implode(' ', [

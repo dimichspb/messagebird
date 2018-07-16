@@ -2,7 +2,7 @@
 
 use dimichspb\messagebird\Configurator;
 use dimichspb\messagebird\controllers\DefaultController;
-use dimichspb\messagebird\middlewares\router\Route;
+
 use dimichspb\messagebird\WebApplication;
 use dimichspb\messagebird\processors\configuration\File;
 use dimichspb\messagebird\processors\configuration\IniFileProcessor;

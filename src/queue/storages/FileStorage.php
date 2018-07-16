@@ -5,10 +5,21 @@ use dimichspb\messagebird\Configurator;
 use dimichspb\messagebird\helpers\AssertHelper;
 use dimichspb\messagebird\helpers\FileHelper;
 
+/**
+ * Class FileStorage
+ * @package dimichspb\messagebird\queue\storages
+ */
 class FileStorage implements StorageInterface
 {
+    /**
+     * @var string
+     */
     protected $filename;
 
+    /**
+     * FileStorage constructor.
+     * @param Configurator $configurator
+     */
     public function __construct(Configurator $configurator)
     {
         $filename = $configurator->get('storage.filename');
@@ -25,6 +36,9 @@ class FileStorage implements StorageInterface
         }
     }
 
+    /**
+     * @return bool|string
+     */
     public function getData()
     {
         $contents = file_get_contents($this->filename);
@@ -32,6 +46,10 @@ class FileStorage implements StorageInterface
         return $contents? $contents: '';
     }
 
+    /**
+     * @param $data
+     * @return bool|int
+     */
     public function saveData($data)
     {
         return file_put_contents($this->filename, $data);

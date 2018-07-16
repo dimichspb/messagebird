@@ -2,22 +2,45 @@
 namespace dimichspb\messagebird\services;
 
 use dimichspb\messagebird\adapters\ClientAdapterInterface;
-use dimichspb\messagebird\entities\messages\InputMessage;
+
 use dimichspb\messagebird\exceptions\ErrorProcessingMessageException;
 use dimichspb\messagebird\parsers\ParserInterface;
-use dimichspb\messagebird\processors\message\MessageProcessor;
+
 use dimichspb\messagebird\processors\message\MessageProcessorInterface;
 use dimichspb\messagebird\queue\Queue;
 use dimichspb\messagebird\queue\workers\MessageWorker;
 use dimichspb\messagebird\requests\RequestInterface;
 
+/**
+ * Class MessageService
+ * @package dimichspb\messagebird\services
+ */
 class MessageService
 {
+    /**
+     * @var ClientAdapterInterface
+     */
     protected $clientAdapter;
+    /**
+     * @var Queue
+     */
     protected $queue;
+    /**
+     * @var MessageProcessorInterface
+     */
     protected $processor;
+    /**
+     * @var ParserInterface
+     */
     protected $parser;
 
+    /**
+     * MessageService constructor.
+     * @param ClientAdapterInterface $clientAdapter
+     * @param Queue $queue
+     * @param MessageProcessorInterface $processor
+     * @param ParserInterface $parser
+     */
     public function __construct(ClientAdapterInterface $clientAdapter, Queue $queue, MessageProcessorInterface $processor, ParserInterface $parser)
     {
         $this->clientAdapter = $clientAdapter;
@@ -26,6 +49,11 @@ class MessageService
         $this->parser = $parser;
     }
 
+    /**
+     * @param RequestInterface $request
+     * @return int
+     * @throws ErrorProcessingMessageException
+     */
     public function create(RequestInterface $request)
     {
         $inputMessage = $this->parser->parse($request->getBody());

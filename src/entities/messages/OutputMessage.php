@@ -10,6 +10,10 @@ use dimichspb\messagebird\entities\messages\udh\ShortLength;
 use dimichspb\messagebird\entities\messages\udh\Udh;
 use dimichspb\messagebird\helpers\AssertHelper;
 
+/**
+ * Class OutputMessage
+ * @package dimichspb\messagebird\entities\messages
+ */
 class OutputMessage
 {
     /**
@@ -22,12 +26,29 @@ class OutputMessage
      */
     protected $text;
 
+    /**
+     * @var int
+     */
     protected $reference = 0;
+    /**
+     * @var int
+     */
     protected $count = 1;
+    /**
+     * @var int
+     */
     protected $current = 1;
 
+    /**
+     * @var Udh
+     */
     protected $udh;
 
+    /**
+     * OutputMessage constructor.
+     * @param Number $number
+     * @param Text $text
+     */
     public function __construct(Number $number, Text $text)
     {
         $this->number = $number;
@@ -59,6 +80,9 @@ class OutputMessage
         return new Text($this->udh->toString() . ' ' . $this->text->getValue());
     }
 
+    /**
+     * @param $count
+     */
     public function setCount($count)
     {
         AssertHelper::isInteger($count);
@@ -67,6 +91,9 @@ class OutputMessage
         $this->udh->setCount(new Count(dechex($count)));
     }
 
+    /**
+     * @param $current
+     */
     public function setCurrent($current)
     {
         AssertHelper::isInteger($current);
@@ -75,6 +102,9 @@ class OutputMessage
         $this->udh->setCurrent(new Current(dechex($current)));
     }
 
+    /**
+     * @param $reference
+     */
     public function setReference($reference)
     {
         AssertHelper::isInteger($reference);

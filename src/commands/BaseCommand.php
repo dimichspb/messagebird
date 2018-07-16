@@ -7,8 +7,12 @@ use dimichspb\messagebird\requests\ConsoleRequest;
 use dimichspb\messagebird\requests\RequestInterface;
 use dimichspb\messagebird\responses\ConsoleResponse;
 use dimichspb\messagebird\responses\ResponseInterface;
-use ReflectionClass;
 
+
+/**
+ * Class BaseCommand
+ * @package dimichspb\messagebird\commands
+ */
 abstract class BaseCommand implements ControllerInterface
 {
     /**
@@ -26,6 +30,12 @@ abstract class BaseCommand implements ControllerInterface
      */
     protected $configurator;
 
+    /**
+     * BaseCommand constructor.
+     * @param Configurator $configurator
+     * @param RequestInterface|null $request
+     * @param ResponseInterface|null $response
+     */
     public function __construct(Configurator $configurator, RequestInterface $request = null, ResponseInterface $response = null)
     {
         $this->configurator = $configurator;
@@ -33,8 +43,9 @@ abstract class BaseCommand implements ControllerInterface
         $this->response = $response? $response: new ConsoleResponse();
     }
 
-    abstract public function getHelp();
-
+    /**
+     *
+     */
     public function aware()
     {
 

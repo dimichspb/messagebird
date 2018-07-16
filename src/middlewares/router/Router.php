@@ -9,8 +9,15 @@ use dimichspb\messagebird\middlewares\MiddlewareInterface;
 use dimichspb\messagebird\requests\RequestInterface;
 use dimichspb\messagebird\responses\ResponseInterface;
 
+/**
+ * Class Router
+ * @package dimichspb\messagebird\middlewares\router
+ */
 class Router implements MiddlewareInterface
 {
+    /**
+     * @var Configurator
+     */
     protected $configurator;
 
     /**
@@ -18,6 +25,11 @@ class Router implements MiddlewareInterface
      */
     protected $routes = [];
 
+    /**
+     * Router constructor.
+     * @param Configurator $configurator
+     * @param $settings
+     */
     public function __construct(Configurator $configurator, $settings)
     {
         $this->configurator = $configurator;
@@ -27,6 +39,9 @@ class Router implements MiddlewareInterface
         $this->setRoutes($this->createRoutes($configurator->get($settings)));
     }
 
+    /**
+     * @param array $routes
+     */
     public function setRoutes(array $routes = [])
     {
         AssertHelper::isAllInstanceOf($routes, Route::class);
@@ -34,11 +49,18 @@ class Router implements MiddlewareInterface
         $this->routes = $routes;
     }
 
+    /**
+     * @return Route[]
+     */
     public function getRoutes()
     {
         return $this->routes;
     }
 
+    /**
+     * @param $alias
+     * @return Route
+     */
     public function getRoute($alias)
     {
         foreach ($this->routes as $route)
@@ -51,6 +73,10 @@ class Router implements MiddlewareInterface
         throw new RouteNotFoundException('Route with alias ' . $alias . ' does not exist');
     }
 
+    /**
+     * @param array $definitions
+     * @return array
+     */
     public function createRoutes(array $definitions = [])
     {
         $routes = [];
@@ -61,16 +87,26 @@ class Router implements MiddlewareInterface
         return $routes;
     }
 
+    /**
+     * @param Route $route
+     */
     public function addRoute(Route $route)
     {
         $this->routes[] = $route;
     }
 
+    /**
+     * @param $class
+     */
     public function setDefaultRoute($class)
     {
-        $this->addRoute(new Route('default', $class));
+        $this->addRoute(new Route(Route::DEFAULT_ROUTE_ALIAS, $class));
     }
 
+    /**
+     * @param $alias
+     * @return bool
+     */
     protected function isRouteExist($alias)
     {
         foreach ($this->routes as $route)
@@ -83,6 +119,10 @@ class Router implements MiddlewareInterface
         return false;
     }
 
+    /**
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     */
     public function process(RequestInterface $request, ResponseInterface $response)
     {
         $controller = $this->getController($request, $response);
@@ -102,7 +142,7 @@ class Router implements MiddlewareInterface
         $alias = $request->getAlias();
 
         if (!$alias) {
-            $alias = 'default';
+            $alias = Route::DEFAULT_ROUTE_ALIAS;
         }
 
         $route = $this->getRoute($alias);

@@ -1,13 +1,15 @@
 <?php
 namespace dimichspb\messagebird\commands;
 
+/**
+ * Class DefaultCommand
+ * @package dimichspb\messagebird\commands
+ */
 class DefaultCommand extends BaseCommand
 {
-    public function getHelp()
-    {
-        return 'Default command';
-    }
-
+    /**
+     * @return string
+     */
     public function run()
     {
         return self::class;

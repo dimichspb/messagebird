@@ -8,13 +8,26 @@ use dimichspb\messagebird\entities\messages\Text;
 use dimichspb\messagebird\exceptions\ParsingException;
 use dimichspb\messagebird\helpers\AssertHelper;
 
+/**
+ * Class JsonParser
+ * @package dimichspb\messagebird\parsers
+ */
 class JsonParser implements ParserInterface
 {
+    /**
+     * JsonParser constructor.
+     * @param Configurator $configurator
+     */
     public function __construct(Configurator $configurator)
     {
 
     }
 
+    /**
+     * @param $body
+     * @return InputMessage
+     * @throws ParsingException
+     */
     public function parse($body)
     {
         $array = json_decode($body, true);
@@ -29,6 +42,10 @@ class JsonParser implements ParserInterface
         );
     }
 
+    /**
+     * @param array $array
+     * @return Number
+     */
     protected function getNumber(array $array)
     {
         AssertHelper::isKeyExist('number', $array);
@@ -36,6 +53,10 @@ class JsonParser implements ParserInterface
         return new Number($array['number']);
     }
 
+    /**
+     * @param array $array
+     * @return Text
+     */
     protected function getText(array $array)
     {
         AssertHelper::isKeyExist('text', $array);

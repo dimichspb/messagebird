@@ -1,13 +1,20 @@
 <?php
 namespace dimichspb\messagebird\requests;
 
-use dimichspb\messagebird\exceptions\MethodNotAllowedException;
+
 use dimichspb\messagebird\helpers\UrlHelper;
 use dimichspb\messagebird\requests\methods\GetMethod;
 use dimichspb\messagebird\requests\methods\PostMethod;
 
+/**
+ * Class HttpRequest
+ * @package dimichspb\messagebird\requests
+ */
 class HttpRequest implements RequestInterface
 {
+    /**
+     * @return null|string
+     */
     public function getAlias()
     {
         $param = $_SERVER['REQUEST_URI'];
@@ -18,6 +25,9 @@ class HttpRequest implements RequestInterface
         return $param;
     }
 
+    /**
+     * @return null|string
+     */
     public function getMethod()
     {
         switch ($_SERVER['REQUEST_METHOD']) {
@@ -30,6 +40,9 @@ class HttpRequest implements RequestInterface
         }
     }
 
+    /**
+     * @return bool|string
+     */
     public function getBody()
     {
         return file_get_contents('php://input');

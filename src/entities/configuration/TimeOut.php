@@ -5,17 +5,16 @@ use dimichspb\messagebird\entities\Entity;
 use dimichspb\messagebird\helpers\AssertHelper;
 
 /**
- * Class MessageSize
+ * Class TimeOut
  * @package dimichspb\messagebird\entities\configuration
  */
-class MessageSize extends Entity
+class TimeOut extends Entity
 {
     /**
      * @param $value
      */
     protected function assert($value)
     {
-        $value = (int)$value;
         AssertHelper::isInteger($value);
     }
 

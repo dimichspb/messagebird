@@ -3,8 +3,16 @@ namespace dimichspb\messagebird\helpers;
 
 use dimichspb\messagebird\exceptions\AssertionException;
 
+/**
+ * Class AssertHelper
+ * @package dimichspb\messagebird\helpers
+ */
 class AssertHelper
 {
+    /**
+     * @param $value
+     * @return bool
+     */
     public static function isInteger($value)
     {
         if (!is_integer($value)) {
@@ -12,6 +20,11 @@ class AssertHelper
         }
         return true;
     }
+
+    /**
+     * @param $value
+     * @return bool
+     */
     public static function isString($value)
     {
         if (!is_string($value)) {
@@ -20,6 +33,11 @@ class AssertHelper
         return true;
     }
 
+    /**
+     * @param array $array
+     * @param $class
+     * @return bool
+     */
     public static function isAllInstanceOf(array $array, $class)
     {
         foreach ($array as $item) {
@@ -28,6 +46,11 @@ class AssertHelper
         return true;
     }
 
+    /**
+     * @param $item
+     * @param $class
+     * @return bool
+     */
     public static function isInstanceOf($item, $class)
     {
         if (!$item instanceof $class) {
@@ -37,6 +60,10 @@ class AssertHelper
         return true;
     }
 
+    /**
+     * @param $array
+     * @return bool
+     */
     public static function isArray($array)
     {
         if (!is_array($array)) {
@@ -45,6 +72,11 @@ class AssertHelper
         return true;
     }
 
+    /**
+     * @param $item
+     * @param array $array
+     * @return bool
+     */
     public static function isInArray($item, array $array)
     {
         if (!in_array($item, $array)) {
@@ -53,14 +85,23 @@ class AssertHelper
         return true;
     }
 
+    /**
+     * @param $key
+     * @param array $array
+     * @return bool
+     */
     public static function isKeyExist($key, array $array)
     {
-        if (!is_array(array_keys($array))) {
+        if (!in_array($key, array_keys($array))) {
             throw new AssertionException('Key not in array');
         }
         return true;
     }
 
+    /**
+     * @param $class
+     * @return bool
+     */
     public static function isClassExist($class)
     {
         if (!class_exists($class)) {
@@ -69,6 +110,10 @@ class AssertHelper
         return true;
     }
 
+    /**
+     * @param $filename
+     * @return bool
+     */
     public static function isFileExist($filename)
     {
         if (!file_exists($filename)) {
@@ -77,6 +122,10 @@ class AssertHelper
         return true;
     }
 
+    /**
+     * @param $directory
+     * @return bool
+     */
     public static function isDirectoryExist($directory)
     {
         if (!is_dir($directory)) {
@@ -85,6 +134,10 @@ class AssertHelper
         return true;
     }
 
+    /**
+     * @param $value
+     * @return bool
+     */
     public static function isPhoneNumber($value)
     {
         if (!preg_match('/[0-9]{11}/', $value)) {
@@ -93,6 +146,10 @@ class AssertHelper
         return true;
     }
 
+    /**
+     * @param $value
+     * @return bool
+     */
     public static function isText($value)
     {
         if (!is_string($value)) {
@@ -101,6 +158,10 @@ class AssertHelper
         return true;
     }
 
+    /**
+     * @param $value
+     * @return bool
+     */
     public static function isHex($value)
     {
         if (!preg_match('/[0-9A-F]{2}/', strtoupper($value))) {
@@ -109,6 +170,10 @@ class AssertHelper
         return true;
     }
 
+    /**
+     * @param $value
+     * @return bool
+     */
     public static function isTrue($value)
     {
         if ($value !== true) {

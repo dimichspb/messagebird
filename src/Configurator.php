@@ -2,19 +2,34 @@
 namespace dimichspb\messagebird;
 
 use dimichspb\messagebird\exceptions\InvalidConfigItemName;
-use dimichspb\messagebird\exceptions\InvalidConfigurationException;
+
 use dimichspb\messagebird\helpers\AssertHelper;
 use dimichspb\messagebird\processors\configuration\FileProcessorInterface;
 
+/**
+ * Class Configurator
+ * @package dimichspb\messagebird
+ */
 class Configurator
 {
+    /**
+     * @var array|mixed
+     */
     protected $config = [];
 
+    /**
+     * Configurator constructor.
+     * @param FileProcessorInterface $fileProcessor
+     */
     public function __construct(FileProcessorInterface $fileProcessor)
     {
         $this->config = $fileProcessor->getArray();
     }
 
+    /**
+     * @param $itemName
+     * @return array|mixed
+     */
     public function get($itemName)
     {
         AssertHelper::isString($itemName);
@@ -33,6 +48,11 @@ class Configurator
         return $item;
     }
 
+    /**
+     * @param $name
+     * @param array $config
+     * @return mixed
+     */
     protected function findItem($name, array $config)
     {
         if (!isset($config[$name])) {

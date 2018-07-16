@@ -3,21 +3,27 @@ namespace dimichspb\messagebird\processors\message;
 
 use dimichspb\messagebird\Configurator;
 use dimichspb\messagebird\entities\configuration\MessageSize;
-use dimichspb\messagebird\entities\messages\Header;
 use dimichspb\messagebird\entities\messages\InputMessage;
 use dimichspb\messagebird\entities\messages\Number;
 use dimichspb\messagebird\entities\messages\OutputMessage;
 use dimichspb\messagebird\entities\messages\Text;
-use dimichspb\messagebird\entities\messages\udh\Identifier;
-use dimichspb\messagebird\entities\messages\udh\Length;
-use dimichspb\messagebird\entities\messages\udh\Reference;
-use dimichspb\messagebird\entities\messages\udh\ShortLength;
-use dimichspb\messagebird\entities\messages\udh\Udh;
 
+
+/**
+ * Class MessageProcessor
+ * @package dimichspb\messagebird\processors\message
+ */
 class MessageProcessor implements MessageProcessorInterface
 {
+    /**
+     * @var MessageSize
+     */
     protected $messageSize;
 
+    /**
+     * MessageProcessor constructor.
+     * @param Configurator $configurator
+     */
     public function __construct(Configurator $configurator)
     {
         $messageSize = new MessageSize($configurator->get('processor.message_size'));

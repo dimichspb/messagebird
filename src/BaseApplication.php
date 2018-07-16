@@ -1,16 +1,15 @@
 <?php
 namespace dimichspb\messagebird;
 
-use dimichspb\messagebird\adapters\MessageBirdClientAdapter;
-use dimichspb\messagebird\entities\configuration\AccessKey;
-use dimichspb\messagebird\exceptions\RouteNotFoundException;
 use dimichspb\messagebird\helpers\AssertHelper;
 use dimichspb\messagebird\middlewares\MiddlewareInterface;
 use dimichspb\messagebird\requests\RequestInterface;
 use dimichspb\messagebird\responses\ResponseInterface;
-use MessageBird\Client;
-use ReflectionClass;
 
+/**
+ * Class BaseApplication
+ * @package dimichspb\messagebird
+ */
 abstract class BaseApplication
 {
     /**
@@ -18,22 +17,37 @@ abstract class BaseApplication
      */
     protected $middlewares = [];
 
+    /**
+     * BaseApplication constructor.
+     * @param array $middlewares
+     */
     public function __construct(array $middlewares = [])
     {
         AssertHelper::isAllInstanceOf($middlewares, MiddlewareInterface::class);
         $this->middlewares = $middlewares;
     }
 
+    /**
+     * @param MiddlewareInterface $middleware
+     */
     public function addMiddleware(MiddlewareInterface $middleware)
     {
         $this->middlewares[] = $middleware;
     }
 
+    /**
+     * @param MiddlewareInterface $middleware
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     */
     protected function processMiddleware(MiddlewareInterface $middleware, RequestInterface $request, ResponseInterface $response)
     {
         $middleware->process($request, $response);
     }
 
+    /**
+     *
+     */
     public function run()
     {
         $request = $this->getRequest();

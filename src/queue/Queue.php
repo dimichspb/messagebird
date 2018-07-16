@@ -2,14 +2,25 @@
 namespace dimichspb\messagebird\queue;
 
 use dimichspb\messagebird\Configurator;
+use dimichspb\messagebird\entities\configuration\TimeOut;
 use dimichspb\messagebird\helpers\AssertHelper;
 use dimichspb\messagebird\queue\serializers\SerializerInterface;
 use dimichspb\messagebird\queue\storages\StorageInterface;
 use dimichspb\messagebird\queue\workers\WorkerInterface;
 
+/**
+ * Class Queue
+ * @package dimichspb\messagebird\queue
+ */
 class Queue
 {
+    /**
+     * @var TimeOut
+     */
     protected $timeout;
+    /**
+     * @var mixed
+     */
     protected $storage;
 
     /**
@@ -22,31 +33,30 @@ class Queue
      */
     protected $serializer;
 
+    /**
+     * Queue constructor.
+     * @param Configurator $configurator
+     */
     public function __construct(Configurator $configurator)
     {
         $this->configurator = $configurator;
 
-        $timeout = (int)$configurator->get('queue.timeout');
+        $this->timeout = new TimeOut((int)$configurator->get('queue.timeout'));
 
         $storageClass = $configurator->get('queue.storage');
         $serializerClass = $configurator->get('queue.serializer');
 
-        AssertHelper::isInteger($timeout);
-
         AssertHelper::isClassExist($storageClass);
         AssertHelper::isClassExist($serializerClass);
-
-
-        $serializer = new $serializerClass;
-
-        AssertHelper::isInstanceOf($serializer, SerializerInterface::class);
-
-        $this->timeout = $timeout;
 
         $this->storage = $this->initStorage($storageClass);
         $this->serializer = $this->initSerializer($serializerClass);
     }
 
+    /**
+     * @param $storageClass
+     * @return mixed
+     */
     protected function initStorage($storageClass)
     {
         AssertHelper::isClassExist($storageClass);
@@ -58,6 +68,10 @@ class Queue
         return $storage;
     }
 
+    /**
+     * @param $serializerClass
+     * @return mixed
+     */
     protected function initSerializer($serializerClass)
     {
         AssertHelper::isClassExist($serializerClass);
@@ -69,11 +83,20 @@ class Queue
         return $serializer;
     }
 
+    /**
+     * @param SerializerInterface $serializer
+     * @param StorageInterface $storage
+     */
     protected function updateStorage(SerializerInterface $serializer, StorageInterface $storage)
     {
 
     }
 
+    /**
+     * @param SerializerInterface $serializer
+     * @param StorageInterface $storage
+     * @return mixed
+     */
     protected function loadData(SerializerInterface $serializer, StorageInterface $storage)
     {
         $data = $serializer->unserialize($storage->getData());
@@ -83,6 +106,12 @@ class Queue
         return $data;
     }
 
+    /**
+     * @param SerializerInterface $serializer
+     * @param StorageInterface $storage
+     * @param array $data
+     * @return mixed
+     */
     protected function saveData(SerializerInterface $serializer, StorageInterface $storage, array $data)
     {
         AssertHelper::isAllInstanceOf($data, WorkerInterface::class);
@@ -90,6 +119,10 @@ class Queue
         return $storage->saveData($serializer->serialize($data));
     }
 
+    /**
+     * @param WorkerInterface $worker
+     * @return mixed
+     */
     public function add(WorkerInterface $worker)
     {
         $data = $this->loadData($this->serializer, $this->storage);
@@ -97,6 +130,9 @@ class Queue
         return $this->saveData($this->serializer, $this->storage, $data);
     }
 
+    /**
+     * @return null
+     */
     public function one()
     {
         $data = $this->loadData($this->serializer, $this->storage);
@@ -113,6 +149,9 @@ class Queue
         return $result;
     }
 
+    /**
+     * @return int
+     */
     public function count()
     {
         $data = $this->loadData($this->serializer, $this->storage);

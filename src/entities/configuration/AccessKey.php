@@ -4,12 +4,19 @@ namespace dimichspb\messagebird\entities\configuration;
 use dimichspb\messagebird\entities\Entity;
 use dimichspb\messagebird\exceptions\AssertionException;
 
+/**
+ * Class AccessKey
+ * @package dimichspb\messagebird\entities\configuration
+ */
 class AccessKey extends Entity
 {
+    /**
+     * @param $value
+     */
     protected function assert($value)
     {
         if (!is_string($value)) {
-            throw new AssertionException('AccesKey must be a string');
+            throw new AssertionException('AccessKey must be a string');
         }
 
         $stringLength = strlen($value);
