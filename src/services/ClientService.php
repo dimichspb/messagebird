@@ -13,8 +13,6 @@ class ClientService
         $this->clientAdapter = $clientAdapter;
     }
 
-    /**
-     */
     public function balance()
     {
         return $this->clientAdapter->getBalance();

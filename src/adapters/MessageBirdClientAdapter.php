@@ -46,7 +46,7 @@ class MessageBirdClientAdapter implements ClientAdapterInterface
             $outputMessage->getNumber()->getValue(),
         ];
         $message->body = $outputMessage->getText()->getValue();
-        
+
         try {
             $result = $this->getInstance()->messages->create($message);
         } catch (\Exception $e) {

@@ -20,7 +20,7 @@ class ConsoleApplication extends BaseApplication
 
     public function getDefaultRoute()
     {
-        return new Route('default', DefaultCommand::class);
+        return new Route(Route::DEFAULT_ROUTE_ALIAS, DefaultCommand::class);
     }
 
 

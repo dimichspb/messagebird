@@ -9,7 +9,7 @@ class AccessKey extends Entity
     protected function assert($value)
     {
         if (!is_string($value)) {
-            throw new AssertionException('AccesKey must be a string');
+            throw new AssertionException('AccessKey must be a string');
         }
 
         $stringLength = strlen($value);

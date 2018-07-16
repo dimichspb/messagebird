@@ -2,6 +2,7 @@
 namespace dimichspb\messagebird;
 
 use dimichspb\messagebird\controllers\DefaultController;
+use dimichspb\messagebird\middlewares\router\Route;
 use dimichspb\messagebird\requests\HttpRequest;
 use dimichspb\messagebird\responses\HttpResponse;
 
@@ -19,7 +20,7 @@ class WebApplication extends BaseApplication
 
     public function getDefaultRoute()
     {
-        return new Route('default', DefaultController::class);
+        return new Route(Route::DEFAULT_ROUTE_ALIAS, DefaultController::class);
     }
 
 

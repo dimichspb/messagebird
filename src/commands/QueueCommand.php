@@ -18,11 +18,6 @@ class QueueCommand extends BaseCommand
         parent::__construct($configurator, $request, $response);
     }
 
-    public function getHelp()
-    {
-        return 'Runs queue';
-    }
-
     public function run()
     {
         $count = $this->queue->count();

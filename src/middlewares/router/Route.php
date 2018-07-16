@@ -5,6 +5,8 @@ use dimichspb\messagebird\helpers\AssertHelper;
 
 class Route
 {
+    const DEFAULT_ROUTE_ALIAS = 'default';
+
     protected $alias;
     protected $class;
 

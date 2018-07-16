@@ -68,7 +68,7 @@ class Router implements MiddlewareInterface
 
     public function setDefaultRoute($class)
     {
-        $this->addRoute(new Route('default', $class));
+        $this->addRoute(new Route(Route::DEFAULT_ROUTE_ALIAS, $class));
     }
 
     protected function isRouteExist($alias)
@@ -102,7 +102,7 @@ class Router implements MiddlewareInterface
         $alias = $request->getAlias();
 
         if (!$alias) {
-            $alias = 'default';
+            $alias = Route::DEFAULT_ROUTE_ALIAS;
         }
 
         $route = $this->getRoute($alias);

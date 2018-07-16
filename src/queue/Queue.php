@@ -2,6 +2,7 @@
 namespace dimichspb\messagebird\queue;
 
 use dimichspb\messagebird\Configurator;
+use dimichspb\messagebird\entities\configuration\TimeOut;
 use dimichspb\messagebird\helpers\AssertHelper;
 use dimichspb\messagebird\queue\serializers\SerializerInterface;
 use dimichspb\messagebird\queue\storages\StorageInterface;
@@ -26,22 +27,13 @@ class Queue
     {
         $this->configurator = $configurator;
 
-        $timeout = (int)$configurator->get('queue.timeout');
+        $this->timeout = new TimeOut((int)$configurator->get('queue.timeout'));
 
         $storageClass = $configurator->get('queue.storage');
         $serializerClass = $configurator->get('queue.serializer');
 
-        AssertHelper::isInteger($timeout);
-
         AssertHelper::isClassExist($storageClass);
         AssertHelper::isClassExist($serializerClass);
-
-
-        $serializer = new $serializerClass;
-
-        AssertHelper::isInstanceOf($serializer, SerializerInterface::class);
-
-        $this->timeout = $timeout;
 
         $this->storage = $this->initStorage($storageClass);
         $this->serializer = $this->initSerializer($serializerClass);

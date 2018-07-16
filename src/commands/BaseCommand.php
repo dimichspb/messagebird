@@ -33,8 +33,6 @@ abstract class BaseCommand implements ControllerInterface
         $this->response = $response? $response: new ConsoleResponse();
     }
 
-    abstract public function getHelp();
-
     public function aware()
     {
 

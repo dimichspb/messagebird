@@ -3,7 +3,7 @@ namespace dimichspb\messagebird\entities;
 
 use dimichspb\messagebird\helpers\AssertHelper;
 
-class HexEntity extends Entity
+abstract class HexEntity extends Entity
 {
     public function __construct($value)
     {
