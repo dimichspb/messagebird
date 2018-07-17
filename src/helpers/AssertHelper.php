@@ -15,7 +15,7 @@ class AssertHelper
      */
     public static function isInteger($value)
     {
-        if (!is_integer($value)) {
+        if ($value !== (int)$value || !is_integer($value)) {
             throw new AssertionException('Not an integer');
         }
         return true;
@@ -152,7 +152,7 @@ class AssertHelper
      */
     public static function isText($value)
     {
-        if (!is_string($value)) {
+        if ($value !== (string)$value || !is_string($value)) {
             throw new AssertionException('Not a text');
         }
         return true;

@@ -15,6 +15,7 @@ use dimichspb\messagebird\requests\RequestInterface;
 use dimichspb\messagebird\responses\ResponseInterface;
 
 use dimichspb\messagebird\services\MessageService;
+use MessageBird\Client;
 
 /**
  * Class MessageController
@@ -35,7 +36,8 @@ class MessageController extends BaseController
      */
     public function __construct(Configurator $configurator, RequestInterface $request = null, ResponseInterface $response = null)
     {
-        $clientAdapter = new MessageBirdClientAdapter($configurator);
+        $client = new Client($configurator->get('messagebird.access_key'));
+        $clientAdapter = new MessageBirdClientAdapter($client);
         $queue = new Queue($configurator);
         $processor = new MessageProcessor($configurator);
         $parser = new JsonParser($configurator);

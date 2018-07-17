@@ -26,7 +26,7 @@ class MessageProcessor implements MessageProcessorInterface
      */
     public function __construct(Configurator $configurator)
     {
-        $messageSize = new MessageSize($configurator->get('processor.message_size'));
+        $messageSize = new MessageSize((int)$configurator->get('processor.message_size'));
         $this->messageSize = $messageSize;
     }
 

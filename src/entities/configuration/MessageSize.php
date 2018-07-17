@@ -15,7 +15,6 @@ class MessageSize extends Entity
      */
     protected function assert($value)
     {
-        $value = (int)$value;
         AssertHelper::isInteger($value);
     }
 

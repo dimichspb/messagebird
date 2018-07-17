@@ -60,6 +60,6 @@ abstract class Entity
             throw new InvalidAttributeNameException('Attribute ' . $name . ' does not exist in ' . self::class);
         }
 
-        return $this->$getter;
+        return $this->$getter();
     }
 }

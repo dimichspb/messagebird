@@ -28,7 +28,7 @@ class InputMessage
     }
 
     /**
-     * @return Number|Number
+     * @return Number
      */
     public function getNumber()
     {

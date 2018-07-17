@@ -17,34 +17,17 @@ use MessageBird\Objects\Message;
 class MessageBirdClientAdapter implements ClientAdapterInterface
 {
     /**
-     * @var
+     * @var Client
      */
-    protected $instance;
-
-    /**
-     * @var
-     */
-    protected $access_key;
+    protected $client;
 
     /**
      * MessageBirdClientAdapter constructor.
-     * @param Configurator $configurator
+     * @param Client $client
      */
-    public function __construct(Configurator $configurator)
+    public function __construct(Client $client)
     {
-        $this->setAccessKey(new AccessKey($configurator->get('messagebird.access_key')));
-    }
-
-    /**
-     * @return Client
-     */
-    public function getInstance()
-    {
-        if ($this->instance instanceof Client) {
-            return $this->instance;
-        }
-
-        return $this->instance = new Client($this->access_key);
+        $this->client = $client;
     }
 
     /**
@@ -54,7 +37,7 @@ class MessageBirdClientAdapter implements ClientAdapterInterface
      */
     public function getBalance()
     {
-        return $this->getInstance()->balance->read();
+        return $this->client->balance->read();
     }
 
     /**
@@ -71,7 +54,7 @@ class MessageBirdClientAdapter implements ClientAdapterInterface
         $message->body = $outputMessage->getText()->getValue();
 
         try {
-            $result = $this->getInstance()->messages->create($message);
+            $result = $this->createMessage($message);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -81,10 +64,14 @@ class MessageBirdClientAdapter implements ClientAdapterInterface
 
 
     /**
-     * @param AccessKey $accessKey
+     * @param Message $message
+     * @return \MessageBird\Objects\Balance|\MessageBird\Objects\Hlr|\MessageBird\Objects\Lookup|Message|\MessageBird\Objects\Verify|\MessageBird\Objects\VoiceMessage
+     * @throws \MessageBird\Exceptions\HttpException
+     * @throws \MessageBird\Exceptions\RequestException
+     * @throws \MessageBird\Exceptions\ServerException
      */
-    public function setAccessKey(AccessKey $accessKey)
+    public function createMessage(Message $message)
     {
-        $this->access_key = $accessKey;
+        return $this->client->messages->create($message);
     }
 }
